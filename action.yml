@@ -17,6 +17,9 @@ inputs:
   directory:
     description: 'Path to the directory or file to publish'
     required: true
+  create:
+    description: 'Create package if it does not exist'
+    required: false
 outputs:
   package_url:
     description: 'The URL of the published package'

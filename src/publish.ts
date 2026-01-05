@@ -37,6 +37,11 @@ export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
     inputs.project,
   ]
 
+  if (inputs.create) {
+    args.push('--create')
+    info('Will create package if it does not exist')
+  }
+
   const output = await executeCommand(process.env.BDY_PATH || 'bdy', args)
   const urlMatch = output.match(/https?:\/\/\S+/)
 
