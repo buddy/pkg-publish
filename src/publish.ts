@@ -1,0 +1,54 @@
+import { exportVariable, info, setOutput, setSecret } from '@actions/core'
+import type { IInputs } from '@/types/inputs'
+import type { IOutputs } from '@/types/outputs'
+import { executeCommand } from '@/utils/command'
+
+export function checkBuddyCredentials(): void {
+  const token = process.env.BUDDY_TOKEN
+  const endpoint = process.env.BUDDY_API_ENDPOINT
+
+  if (!token) {
+    throw new Error(
+      'BUDDY_TOKEN is not set. Please use the buddy/login@v1 action before publishing packages.',
+    )
+  }
+
+  if (!endpoint) {
+    throw new Error(
+      'BUDDY_API_ENDPOINT is not set. Please use the buddy/login@v1 action before publishing packages.',
+    )
+  }
+
+  setSecret(token)
+  info('Buddy credentials found')
+}
+
+export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
+  info(`Publishing package: ${inputs.identifier} from ${inputs.directory}`)
+
+  const args = [
+    'package',
+    'publish',
+    inputs.identifier,
+    inputs.directory,
+    '--workspace',
+    inputs.workspace,
+    '--project',
+    inputs.project,
+  ]
+
+  const output = await executeCommand(process.env.BDY_PATH || 'bdy', args)
+  const urlMatch = output.match(/https?:\/\/\S+/)
+
+  const outputs: IOutputs = {}
+
+  if (urlMatch) {
+    const packageUrl = urlMatch[0]
+    outputs.packageUrl = packageUrl
+    setOutput('package_url', packageUrl)
+    exportVariable('BUDDY_PACKAGE_URL', packageUrl)
+    info(`Package published: ${packageUrl}`)
+  }
+
+  return outputs
+}
