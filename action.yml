@@ -23,6 +23,9 @@ inputs:
   force:
     description: 'Allow overwriting existing version'
     required: false
+  region:
+    description: 'Override default region (EU or US)'
+    required: false
 outputs:
   package_url:
     description: 'The URL of the published package'

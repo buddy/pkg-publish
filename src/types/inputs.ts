@@ -1,3 +1,8 @@
+export enum REGION {
+  EU = 'EU',
+  US = 'US',
+}
+
 export interface IInputs {
   workspace: string
   project: string
@@ -5,4 +10,5 @@ export interface IInputs {
   directory: string
   create?: boolean
   force?: boolean
+  region?: string
 }
