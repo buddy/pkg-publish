@@ -26,6 +26,9 @@ inputs:
   region:
     description: 'Override default region (EU, US, or AP)'
     required: false
+  api:
+    description: 'Override API URL'
+    required: false
 outputs:
   package_url:
     description: 'The URL of the published package'

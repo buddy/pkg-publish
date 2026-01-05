@@ -33,6 +33,7 @@ async function run(): Promise<void> {
     create: parseBooleanInput('create'),
     force: parseBooleanInput('force'),
     region: getInput('region') || undefined,
+    api: getInput('api') || undefined,
   }
 
   await publishPackage(inputs)

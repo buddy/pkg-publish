@@ -12,4 +12,5 @@ export interface IInputs {
   create?: boolean
   force?: boolean
   region?: string
+  api?: string
 }
