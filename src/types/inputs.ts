@@ -4,4 +4,5 @@ export interface IInputs {
   identifier: string
   directory: string
   create?: boolean
+  force?: boolean
 }

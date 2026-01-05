@@ -31,6 +31,7 @@ async function run(): Promise<void> {
     identifier: getInput('identifier', { required: true }),
     directory: getInput('directory', { required: true }),
     create: parseBooleanInput('create'),
+    force: parseBooleanInput('force'),
   }
 
   await publishPackage(inputs)

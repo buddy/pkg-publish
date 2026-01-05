@@ -20,6 +20,9 @@ inputs:
   create:
     description: 'Create package if it does not exist'
     required: false
+  force:
+    description: 'Allow overwriting existing version'
+    required: false
 outputs:
   package_url:
     description: 'The URL of the published package'
