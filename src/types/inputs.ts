@@ -1,6 +1,7 @@
 export enum REGION {
   EU = 'EU',
   US = 'US',
+  AP = 'AP',
 }
 
 export interface IInputs {
