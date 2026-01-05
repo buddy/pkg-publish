@@ -3,4 +3,5 @@ export interface IInputs {
   project: string
   identifier: string
   directory: string
+  create?: boolean
 }
