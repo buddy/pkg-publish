@@ -1,0 +1,25 @@
+name: 'Buddy Publish Package'
+description: 'Publish packages to Buddy CI/CD platform'
+author: 'Marcel Gańczarczyk'
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
+inputs:
+  workspace:
+    description: 'Buddy workspace domain'
+    required: true
+  project:
+    description: 'Buddy project name (URL handle)'
+    required: true
+  identifier:
+    description: 'Package identifier with optional version (e.g., my-package or my-package@1.0.0)'
+    required: true
+  directory:
+    description: 'Path to the directory or file to publish'
+    required: true
+outputs:
+  package_url:
+    description: 'The URL of the published package'
+branding:
+  icon: 'package'
+  color: 'blue'
