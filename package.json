@@ -1,0 +1,36 @@
+{
+  "name": "publish-package",
+  "version": "1.0.0",
+  "description": "GitHub Action to publish Buddy packages",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "pnpm lint && esbuild src/index.ts --bundle --platform=node --target=node24 --minify --outdir=./dist",
+    "format": "biome format --write .",
+    "lint": "biome check .",
+    "lint:types": "tsc --skipLibCheck --noEmit"
+  },
+  "keywords": [
+    "github-action",
+    "buddy",
+    "package",
+    "publish",
+    "ci-cd"
+  ],
+  "author": "Marcel Gańczarczyk <marcel.ganczarczyk@buddy.works>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buddy/publish-package.git"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "@actions/core": "1.11.1",
+    "@actions/exec": "1.1.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.8",
+    "@types/node": "24",
+    "esbuild": "0.25.9",
+    "typescript": "5.9.2"
+  }
+}
