@@ -36,7 +36,7 @@ jobs:
         with:
           workspace: buddy-workshop-devs
           project: tttt
-          identifier: test-package@1.0.0
+          identifier: test-package@${{ github.run_id }}-${{ github.run_number }}
           directory: ./dist
 
       - name: Publish with create option
@@ -44,7 +44,7 @@ jobs:
         with:
           workspace: buddy-workshop-devs
           project: tttt
-          identifier: new-package
+          identifier: ${{ github.run_id }}-${{ github.run_number }}
           directory: ./dist
           create: true
 
@@ -53,7 +53,7 @@ jobs:
         with:
           workspace: buddy-workshop-devs
           project: tttt
-          identifier: test-package@1.0.0
+          identifier: test-package@${{ github.run_id }}-${{ github.run_number }}
           directory: ./dist
           force: true
 
