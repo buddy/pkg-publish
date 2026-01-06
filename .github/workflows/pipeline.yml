@@ -36,7 +36,7 @@ jobs:
         with:
           workspace: buddy-workshop-devs
           project: tttt
-          identifier: test-package@${{ github.run_id }}-${{ github.run_number }}
+          identifier: test-package@1.0.0
           directory: ./dist
 
       - name: Publish with create option
