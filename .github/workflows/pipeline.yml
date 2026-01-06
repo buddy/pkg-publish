@@ -17,6 +17,12 @@ jobs:
           token: ${{ secrets.TOKEN }}
           region: 'US'
 
+      - name: Setup BDY CLI
+        uses: buddy/setup@v1
+        with:
+          installation_method: 'npm'
+          env: 'dev-package'
+
       - name: Publish package
         uses: ./
         with:
