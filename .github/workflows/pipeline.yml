@@ -1,0 +1,61 @@
+name: Publish Buddy Package from GitHub Actions
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test-with-setup:
+    name: Test with minimal setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Buddy
+        uses: buddy/login@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          region: 'US'
+
+      - name: Publish package
+        uses: ./
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: test-package
+          directory: ./dist
+
+      - name: Publish versioned package
+        uses: ./
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: test-package@1.0.0
+          directory: ./dist
+
+      - name: Publish with create option
+        uses: ./
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: new-package
+          directory: ./dist
+          create: true
+
+      - name: Publish with force option
+        uses: ./
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: test-package@1.0.0
+          directory: ./dist
+          force: true
+
+      - name: Publish with region override
+        uses: ./
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: test-package
+          directory: ./dist
+          region: US
