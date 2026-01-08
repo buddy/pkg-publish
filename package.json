@@ -20,7 +20,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/buddy/publish-package.git"
+    "url": "https://github.com/buddy/pkg-publish.git"
   },
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
