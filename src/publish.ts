@@ -78,7 +78,6 @@ export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
     outputs.packageUrl = packageUrl
     setOutput('package_url', packageUrl)
     exportVariable('BUDDY_PACKAGE_URL', packageUrl)
-    info(`Package published: ${packageUrl}`)
   }
 
   return outputs

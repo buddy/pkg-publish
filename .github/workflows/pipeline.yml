@@ -65,3 +65,11 @@ jobs:
           identifier: test-package
           directory: ./dist
           region: US
+
+      - name: Verify BUDDY_PACKAGE_URL is set
+        run: |
+          if [ -z "$BUDDY_PACKAGE_URL" ]; then
+            echo "BUDDY_PACKAGE_URL is not set"
+            exit 1
+          fi
+          echo "BUDDY_PACKAGE_URL: $BUDDY_PACKAGE_URL"
