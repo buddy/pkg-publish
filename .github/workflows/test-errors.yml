@@ -1,0 +1,81 @@
+name: Test Error Scenarios
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test-errors:
+    name: Test error handling
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Buddy
+        uses: buddy/login@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          region: 'US'
+
+      - name: Setup BDY CLI
+        uses: buddy/setup@v1
+        with:
+          installation_method: 'npm'
+          env: 'dev-package'
+
+      - name: Create empty directory
+        run: mkdir -p ./empty-dir
+
+      - name: Test empty directory
+        id: empty-dir
+        uses: ./
+        continue-on-error: true
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: test-package
+          directory: ./empty-dir
+
+      - name: Verify empty directory failed
+        run: |
+          if [ "${{ steps.empty-dir.outcome }}" != "failure" ]; then
+            echo "Expected failure for empty directory, got: ${{ steps.empty-dir.outcome }}"
+            exit 1
+          fi
+          echo "Empty directory test passed - action failed as expected"
+
+      - name: Test non-existent project
+        id: no-project
+        uses: ./
+        continue-on-error: true
+        with:
+          workspace: buddy-workshop-devs
+          project: this-project-does-not-exist-${{ github.run_id }}
+          identifier: test-package
+          directory: ./dist
+
+      - name: Verify non-existent project failed
+        run: |
+          if [ "${{ steps.no-project.outcome }}" != "failure" ]; then
+            echo "Expected failure for non-existent project, got: ${{ steps.no-project.outcome }}"
+            exit 1
+          fi
+          echo "Non-existent project test passed - action failed as expected"
+
+      - name: Test non-existent package without create flag
+        id: no-package
+        uses: ./
+        continue-on-error: true
+        with:
+          workspace: buddy-workshop-devs
+          project: tttt
+          identifier: this-package-does-not-exist-${{ github.run_id }}
+          directory: ./dist
+
+      - name: Verify non-existent package failed
+        run: |
+          if [ "${{ steps.no-package.outcome }}" != "failure" ]; then
+            echo "Expected failure for non-existent package without create flag, got: ${{ steps.no-package.outcome }}"
+            exit 1
+          fi
+          echo "Non-existent package test passed - action failed as expected"
