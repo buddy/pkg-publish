@@ -27,22 +27,12 @@ jobs:
         run: mkdir -p ./empty-dir
 
       - name: Test empty directory
-        id: empty-dir
         uses: ./
-        continue-on-error: true
         with:
           workspace: buddy-workshop-devs
           project: tttt
           identifier: test-package
           directory: ./empty-dir
-
-      - name: Verify empty directory failed
-        run: |
-          if [ "${{ steps.empty-dir.outcome }}" != "failure" ]; then
-            echo "Expected failure for empty directory, got: ${{ steps.empty-dir.outcome }}"
-            exit 1
-          fi
-          echo "Empty directory test passed - action failed as expected"
 
       - name: Test non-existent project
         id: no-project
