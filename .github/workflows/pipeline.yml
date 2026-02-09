@@ -21,13 +21,13 @@ jobs:
         uses: buddy/setup@v1
         with:
           installation_method: 'npm'
-          env: 'dev-package'
+          env: 'dev'
 
       - name: Publish package
         uses: ./
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: test-package
           directory: ./dist
 
@@ -35,7 +35,7 @@ jobs:
         uses: ./
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: test-package@${{ github.run_id }}-${{ github.run_number }}
           directory: ./dist
 
@@ -43,7 +43,7 @@ jobs:
         uses: ./
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: ${{ github.run_id }}-${{ github.run_number }}
           directory: ./dist
           create: true
@@ -52,7 +52,7 @@ jobs:
         uses: ./
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: test-package@1.0.0
           directory: ./dist
           force: true
@@ -61,7 +61,7 @@ jobs:
         uses: ./
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: test-package
           directory: ./dist
           region: US

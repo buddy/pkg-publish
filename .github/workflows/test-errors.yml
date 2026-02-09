@@ -21,7 +21,7 @@ jobs:
         uses: buddy/setup@v1
         with:
           installation_method: 'npm'
-          env: 'dev-package'
+          env: 'dev'
 
       - name: Create empty directory
         run: mkdir -p ./empty-dir
@@ -30,7 +30,7 @@ jobs:
         uses: ./
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: test-package
           directory: ./empty-dir
 
@@ -58,7 +58,7 @@ jobs:
         continue-on-error: true
         with:
           workspace: buddy-workshop-devs
-          project: tttt
+          project: ttttesty
           identifier: this-package-does-not-exist-${{ github.run_id }}
           directory: ./dist
 
