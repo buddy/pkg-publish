@@ -32,7 +32,6 @@ async function run(): Promise<void> {
     directory: getInput('directory', { required: true }),
     create: parseBooleanInput('create'),
     force: parseBooleanInput('force'),
-    api: getInput('api') || undefined,
   }
 
   await publishPackage(inputs)

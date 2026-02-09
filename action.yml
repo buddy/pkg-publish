@@ -23,9 +23,6 @@ inputs:
   force:
     description: 'Allow overwriting existing version'
     required: false
-  api:
-    description: 'Override API URL'
-    required: false
 outputs:
   package_url:
     description: 'The URL of the published package'

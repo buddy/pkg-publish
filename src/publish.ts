@@ -47,10 +47,6 @@ export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
     info('Will overwrite existing version if present')
   }
 
-  if (inputs.api) {
-    args.push('--api', inputs.api)
-  }
-
   const output = await executeCommand(process.env.BDY_PATH || 'bdy', args)
   const urlMatch = output.match(/https?:\/\/\S+/)
 

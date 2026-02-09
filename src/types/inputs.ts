@@ -5,5 +5,4 @@ export interface IInputs {
   directory: string
   create?: boolean
   force?: boolean
-  api?: string
 }

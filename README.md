@@ -86,7 +86,6 @@ jobs:
 | `directory`  | Yes      | Path to the directory or file to publish                                 |
 | `create`     | No       | Create package if it does not exist (`true`/`false`)                     |
 | `force`      | No       | Allow overwriting existing version (`true`/`false`)                      |
-| `api`        | No       | Override API URL                                                         |
 
 ## Outputs
 
