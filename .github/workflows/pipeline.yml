@@ -57,15 +57,6 @@ jobs:
           directory: ./dist
           force: true
 
-      - name: Publish with region override
-        uses: ./
-        with:
-          workspace: buddy-workshop-devs
-          project: ttttesty
-          identifier: test-package
-          directory: ./dist
-          region: US
-
       - name: Verify BUDDY_PACKAGE_URL is set
         run: |
           if [ -z "$BUDDY_PACKAGE_URL" ]; then

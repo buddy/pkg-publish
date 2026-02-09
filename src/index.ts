@@ -32,7 +32,6 @@ async function run(): Promise<void> {
     directory: getInput('directory', { required: true }),
     create: parseBooleanInput('create'),
     force: parseBooleanInput('force'),
-    region: getInput('region') || undefined,
     api: getInput('api') || undefined,
   }
 

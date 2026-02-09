@@ -1,18 +1,7 @@
 import { exportVariable, info, setOutput, setSecret } from '@actions/core'
-import { type IInputs, REGION } from '@/types/inputs'
+import type { IInputs } from '@/types/inputs'
 import type { IOutputs } from '@/types/outputs'
 import { executeCommand } from '@/utils/command'
-
-function validateRegion(region: string): string {
-  const validRegions: string[] = Object.values(REGION)
-  const normalized = region.toUpperCase()
-
-  if (!validRegions.includes(normalized)) {
-    throw new Error(`Invalid region: "${region}". Must be one of: ${validRegions.join(', ')}`)
-  }
-
-  return normalized
-}
 
 export function checkBuddyCredentials(): void {
   const token = process.env.BUDDY_TOKEN
@@ -56,12 +45,6 @@ export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
   if (inputs.force) {
     args.push('--force')
     info('Will overwrite existing version if present')
-  }
-
-  if (inputs.region) {
-    const normalized = validateRegion(inputs.region)
-    info(`Overriding region to: ${normalized}`)
-    args.push('--region', normalized)
   }
 
   if (inputs.api) {

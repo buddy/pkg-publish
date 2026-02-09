@@ -8,7 +8,6 @@ Publish packages to Buddy CI/CD platform from GitHub Actions workflows.
 - Support for versioned packages (package@version)
 - Create packages automatically if they don't exist
 - Force overwrite existing versions
-- Region support (EU, US, AP)
 
 ## Usage
 
@@ -77,19 +76,6 @@ jobs:
     force: true
 ```
 
-### With Region Override
-
-```yaml
-- name: Publish to specific region
-  uses: buddy/publish-package@v1
-  with:
-    workspace: my-workspace
-    project: my-project
-    identifier: my-package
-    directory: ./dist
-    region: AP  # EU, US, or AP
-```
-
 ## Inputs
 
 | Input        | Required | Description                                                              |
@@ -100,7 +86,6 @@ jobs:
 | `directory`  | Yes      | Path to the directory or file to publish                                 |
 | `create`     | No       | Create package if it does not exist (`true`/`false`)                     |
 | `force`      | No       | Allow overwriting existing version (`true`/`false`)                      |
-| `region`     | No       | Override default region: `EU`, `US`, or `AP`                             |
 | `api`        | No       | Override API URL                                                         |
 
 ## Outputs

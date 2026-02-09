@@ -23,9 +23,6 @@ inputs:
   force:
     description: 'Allow overwriting existing version'
     required: false
-  region:
-    description: 'Override default region (EU, US, or AP)'
-    required: false
   api:
     description: 'Override API URL'
     required: false
