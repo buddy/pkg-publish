@@ -1,4 +1,3 @@
-import { info } from '@actions/core'
 import { exec } from '@actions/exec'
 
 interface CommandOutput {
