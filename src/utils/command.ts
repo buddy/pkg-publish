@@ -17,7 +17,6 @@ function createStreamListener(output: CommandOutput, stream: 'stdout' | 'stderr'
 export async function executeCommand(command: string, args: string[]): Promise<string> {
   const output: CommandOutput = { stdout: '', stderr: '' }
 
-  info(`command ${command} - args: ${args.join(' ')}`)
   const exitCode = await exec(command, args, {
     ignoreReturnCode: true,
     silent: true,
