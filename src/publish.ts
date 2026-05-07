@@ -24,10 +24,10 @@ export function checkBuddyCredentials(): void {
 }
 
 export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
-  info(`Publishing package: ${inputs.identifier} from ${inputs.directory}`)
+  info(`Publishing artifact: ${inputs.identifier} from ${inputs.directory}`)
 
   const args = [
-    'package',
+    'artifact',
     'publish',
     inputs.identifier,
     inputs.directory,
@@ -39,7 +39,7 @@ export async function publishPackage(inputs: IInputs): Promise<IOutputs> {
 
   if (inputs.create) {
     args.push('--create')
-    info('Will create package if it does not exist')
+    info('Will create artifact if it does not exist')
   }
 
   if (inputs.force) {
