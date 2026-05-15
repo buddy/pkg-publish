@@ -1,12 +1,12 @@
-# Buddy Publish Package GitHub Action
+# Buddy Publish Artifact GitHub Action
 
-Publish packages to Buddy CI/CD platform from GitHub Actions workflows.
+Publish artifacts to Buddy CI/CD platform from GitHub Actions workflows.
 
 ## Features
 
-- Publish packages directly from GitHub Actions
-- Support for versioned packages (package@version)
-- Create packages automatically if they don't exist
+- Publish artifacts directly from GitHub Actions
+- Support for versioned artifacts (artifact@version)
+- Create artifacts automatically if they don't exist
 - Force overwrite existing versions
 
 ## Usage
@@ -29,36 +29,36 @@ jobs:
           token: ${{ secrets.BUDDY_TOKEN }}
           region: 'US'
 
-      - name: Publish package
-        uses: buddy/publish-package@v1
+      - name: Publish artifact
+        uses: buddy/artifact-publish@v1
         with:
           workspace: my-workspace
           project: my-project
-          identifier: my-package
+          identifier: my-artifact
           directory: ./dist
 ```
 
 ### With Version
 
 ```yaml
-- name: Publish versioned package
-  uses: buddy/publish-package@v1
+- name: Publish versioned artifact
+  uses: buddy/artifact-publish@v1
   with:
     workspace: my-workspace
     project: my-project
-    identifier: my-package@1.0.0
+    identifier: my-artifact@1.0.0
     directory: ./dist
 ```
 
-### Create Package If Not Exists
+### Create Artifact If Not Exists
 
 ```yaml
-- name: Publish package (create if missing)
-  uses: buddy/publish-package@v1
+- name: Publish artifact (create if missing)
+  uses: buddy/artifact-publish@v1
   with:
     workspace: my-workspace
     project: my-project
-    identifier: my-package@1.0.0
+    identifier: my-artifact@1.0.0
     directory: ./dist
     create: true
 ```
@@ -66,44 +66,44 @@ jobs:
 ### Force Overwrite Existing Version
 
 ```yaml
-- name: Publish package (force overwrite)
-  uses: buddy/publish-package@v1
+- name: Publish artifact (force overwrite)
+  uses: buddy/artifact-publish@v1
   with:
     workspace: my-workspace
     project: my-project
-    identifier: my-package@1.0.0
+    identifier: my-artifact@1.0.0
     directory: ./dist
     force: true
 ```
 
 ## Inputs
 
-| Input        | Required | Description                                                              |
-| ------------ | -------- | ------------------------------------------------------------------------ |
-| `workspace`  | Yes      | Buddy workspace domain                                                   |
-| `project`    | Yes      | Buddy project name (URL handle)                                          |
-| `identifier` | Yes      | Package identifier with optional version (e.g., `my-package@1.0.0`)      |
-| `directory`  | Yes      | Path to the directory or file to publish                                 |
-| `create`     | No       | Create package if it does not exist (`true`/`false`)                     |
-| `force`      | No       | Allow overwriting existing version (`true`/`false`)                      |
+| Input        | Required | Description                                                           |
+| ------------ | -------- | --------------------------------------------------------------------- |
+| `workspace`  | Yes      | Buddy workspace domain                                                |
+| `project`    | Yes      | Buddy project name (URL handle)                                       |
+| `identifier` | Yes      | Artifact identifier with optional version (e.g., `my-artifact@1.0.0`) |
+| `directory`  | Yes      | Path to the directory or file to publish                              |
+| `create`     | No       | Create artifact if it does not exist (`true`/`false`)                 |
+| `force`      | No       | Allow overwriting existing version (`true`/`false`)                   |
 
 ## Outputs
 
-| Output        | Description                    |
-| ------------- | ------------------------------ |
-| `package_url` | The URL of the published package |
+| Output         | Description                       |
+| -------------- | --------------------------------- |
+| `artifact_url` | The URL of the published artifact |
 
 ## Environment Variables
 
 The action exports the following environment variables for use in subsequent steps:
 
-| Variable            | Description                    |
-| ------------------- | ------------------------------ |
-| `BUDDY_PACKAGE_URL` | The URL of the published package |
+| Variable             | Description                       |
+| -------------------- | --------------------------------- |
+| `BUDDY_ARTIFACT_URL` | The URL of the published artifact |
 
 ## Prerequisites
 
-This action requires authentication with Buddy. Use the [`buddy/login`](https://github.com/buddy/login) action before publishing packages:
+This action requires authentication with Buddy. Use the [`buddy/login`](https://github.com/buddy/login) action before publishing artifacts:
 
 ```yaml
 - name: Login to Buddy
@@ -114,6 +114,7 @@ This action requires authentication with Buddy. Use the [`buddy/login`](https://
 ```
 
 The login action sets the following environment variables that are used by this action:
+
 - `BUDDY_TOKEN` - Authentication token
 - `BUDDY_API_ENDPOINT` - API endpoint URL
 

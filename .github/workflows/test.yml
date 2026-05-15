@@ -1,30 +1,144 @@
-name: Lint
+name: Test
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
-  lint:
-    name: Lint
+  test-publish:
+    name: Test publishing
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: buddy/login@v1
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          token: ${{ secrets.BUDDY_TOKEN }}
+          region: 'US'
+      - uses: buddy/setup@v1
+        with:
+          installation_method: 'npm'
+          env: 'dev'
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Reset test-artifact (clean slate)
+        run: |
+          bdy art delete test-artifact --workspace buddy-gha-tests --project pipelines -f || true
 
-      - name: Run lint
-        run: pnpm lint
+      - name: Publish (default)
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: test-artifact
+          directory: ./dist
+          create: true
 
-      - name: Run type check
-        run: pnpm lint:types
+      - name: Publish versioned
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: test-artifact@${{ github.run_id }}-${{ github.run_number }}
+          directory: ./dist
+          force: true
+
+      - name: Publish with create
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: ${{ github.run_id }}-${{ github.run_number }}
+          directory: ./dist
+          create: true
+          force: true
+
+      - name: Publish with force
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: test-artifact@1.0.1
+          directory: ./dist
+          force: true
+
+      - name: Publish baseline 1.0.0
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: test-artifact@1.0.0
+          directory: ./dist
+          force: true
+
+      - name: Verify BUDDY_ARTIFACT_URL is set
+        run: |
+          if [ -z "$BUDDY_ARTIFACT_URL" ]; then
+            echo "BUDDY_ARTIFACT_URL is not set"
+            exit 1
+          fi
+          echo "BUDDY_ARTIFACT_URL: $BUDDY_ARTIFACT_URL"
+
+      - name: Cleanup buckets
+        if: always()
+        run: |
+          bdy art delete test-artifact --workspace buddy-gha-tests --project pipelines -f || true
+          bdy art delete "${{ github.run_id }}-${{ github.run_number }}" --workspace buddy-gha-tests --project pipelines -f || true
+
+  test-errors:
+    name: Test error handling
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: buddy/login@v1
+        with:
+          token: ${{ secrets.BUDDY_TOKEN }}
+          region: 'US'
+      - uses: buddy/setup@v1
+        with:
+          installation_method: 'npm'
+          env: 'dev'
+
+      - name: Create empty dir
+        run: mkdir -p ./empty-dir
+
+      - name: Empty directory
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: test-artifact-empty
+          directory: ./empty-dir
+          create: true
+
+      - name: Publish to non-existent project
+        id: no-project
+        continue-on-error: true
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: this-project-does-not-exist-${{ github.run_id }}
+          identifier: test-artifact
+          directory: ./empty-dir
+      - name: Verify non-existent project failed
+        run: |
+          [ "${{ steps.no-project.outcome }}" == "failure" ] || exit 1
+          echo "Non-existent project correctly failed"
+
+      - name: Publish non-existent artifact without create
+        id: no-artifact
+        continue-on-error: true
+        uses: ./
+        with:
+          workspace: buddy-gha-tests
+          project: pipelines
+          identifier: this-artifact-does-not-exist-${{ github.run_id }}
+          directory: ./empty-dir
+      - name: Verify non-existent artifact failed
+        run: |
+          [ "${{ steps.no-artifact.outcome }}" == "failure" ] || exit 1
+          echo "Non-existent artifact without create correctly failed"
+
+      - name: Cleanup buckets
+        if: always()
+        run: |
+          bdy art delete test-artifact-empty --workspace buddy-gha-tests --project pipelines -f || true
